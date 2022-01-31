@@ -52,6 +52,7 @@ pipeline {
 //                 docker run --rm ${ECR_DOCKER_IMAGE}:${ECR_DOCKER_TAG} /root/.local/bin/pytest -v
 //             '''
         }
+    }
   }
 
 //   stage('Prompt for deploy') {
