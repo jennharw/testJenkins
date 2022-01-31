@@ -43,6 +43,29 @@ pipeline {
       }
     }
 
+    stage('============ Build Docker Image! ============') {
+      when {
+        expression {
+          return params.BUILD_DOCKER == 'Y'
+        }
+      }
+
+      steps {
+        echo "${DOCKER_TAG}Current workspace is hrim!! ${DOCKER_IMAGE}"
+//         dir("${env.WORKSPACE}") {
+//              sh 'docker build -t test:1 .'
+// //             script {
+// //                 //app = docker.build("${params.ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${params.ECR_REPO_NAME}:${params.ECR_REPO_TAG}")
+// //             }
+//         }
+      }
+      post {
+        always {
+            echo "post stage Docker build success!!!!!"
+        }
+      }
+    }
+
 //     stage('============ Run test code ============') {
 //         echo "${DOCKER_TAG}Current workspace is hrim!! ${DOCKER_IMAGE}"
 //
