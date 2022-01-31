@@ -57,16 +57,16 @@ pipeline {
         echo "${DOCKER_IMAGE}  ... ${DOCKER_TAG}"
 
         when { expression { return true } }
-        steps {
-            sh """
-            export IMAGE=${ECR_DOCKER_IMAGE};
-            export TAG=${ECR_DOCKER_TAG};
-            docker-compose -f docker-compose.yml down;
-            docker-compose -f docker-compose.yml up -d';
-            """
-
-            echo "${DOCKER_IMAGE}  ... ${DOCKER_TAG}"
-        }
+//         steps {
+//             sh """
+//             export IMAGE=${ECR_DOCKER_IMAGE};
+//             export TAG=${ECR_DOCKER_TAG};
+//             docker-compose -f docker-compose.yml down;
+//             docker-compose -f docker-compose.yml up -d';
+//             """
+//
+//             echo "${DOCKER_IMAGE}  ... ${DOCKER_TAG}"
+//         }
     }
 
 
