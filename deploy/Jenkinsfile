@@ -5,6 +5,10 @@ pipeline {
     string(name : 'AWS_ACCOUNT_ID', defaultValue : '657976307134', description : 'AWS account id')
     string(name : 'ECR_REPO_NAME', defaultValue : 'demo_python', description : 'AWS account id')
     string(name : 'ECR_REPO_TAG', defaultValue : 'latest', description : 'AWS account id')
+
+    string(name : 'TARGET_SVR_USER', defaultValue : 'ubuntu', description : 'TARGET_SVR_USER')
+    string(name : 'TARGET_SVR_PATH', defaultValue : '/home/ubuntu/', description : 'TARGET_SVR_PATH')
+    string(name : 'TARGET_SVR', defaultValue : '172.31.32.176', description : 'TARGET_SVR')
   }
 
 //   environment {
@@ -93,6 +97,20 @@ pipeline {
       when { expression { return true } }
       steps {
         echo "DEPLOY"
+        sshagent (credentials: ['aws_ec2_user_ssh']) {
+                sh """#!/bin/bash
+                    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+                        deploy/docker-compose.yml \
+                        ${params.TARGET_SVR_USER}@${params.TARGET_SVR}:${params.TARGET_SVR_PATH};
+                    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+                        ${params.TARGET_SVR_USER}@${params.TARGET_SVR} \
+                        'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY}; \
+                         export IMAGE=${DOCKER_IMAGE}; \
+                         export TAG=1; \
+                         docker-compose -f docker-compose.yml down;
+                         docker-compose -f docker-compose.yml up -d';
+                """
+            }
       }
     }
 
