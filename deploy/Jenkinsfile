@@ -43,6 +43,31 @@ pipeline {
       }
     }
   }
+  stage('============ Run test code ============') {
+        when { expression { return true } }
+        steps {
+            sh('docker run --rm ${DOCKER_IMAGE} /root/.local/bin')
+//             sh'''
+//                 aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY}
+//                 docker run --rm ${ECR_DOCKER_IMAGE}:${ECR_DOCKER_TAG} /root/.local/bin/pytest -v
+//             '''
+        }
+    }
+    stage('============ Deploy workload ============') {
+        echo "${DOCKER_TAG} Current workspace is hrim!! ${DOCKER_IMAGE} "
+        when { expression { return true } }
+        steps {
+//             sshagent (credentials: ['aws_ec2_user_ssh']) {
+                sh """#!/bin/bash
+                        'export IMAGE=${DOCKER_IMAGE}; \
+                         export TAG=${DOCKER_TAG}; \
+                         docker-compose -f docker-compose.yml down;
+                         docker-compose -f docker-compose.yml up -d';
+                """
+//             }
+        }
+    }
+
 //   post {
 //       always {
 //         sh "./deploy/build.sh reset_git_directory ${params.ENV}"
