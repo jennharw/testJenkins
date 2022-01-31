@@ -52,11 +52,12 @@ pipeline {
 //                 docker run --rm ${ECR_DOCKER_IMAGE}:${ECR_DOCKER_TAG} /root/.local/bin/pytest -v
 //             '''
         }
-    }
-    stage('Prompt for deploy') {
+  }
+
+  stage('Prompt for deploy') {
         echo "${DOCKER_IMAGE}  ... ${DOCKER_TAG}"
 
-        when { expression { return true } }
+        //when { expression { return true } }
 //         steps {
 //             sh """
 //             export IMAGE=${ECR_DOCKER_IMAGE};
