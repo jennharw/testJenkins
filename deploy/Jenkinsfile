@@ -67,10 +67,10 @@ pipeline {
       }
     }
 
-    stage('============ PUSH DOCKER IMAGE!@============') {
+    stage('============ PUSH DOCKER IMAGE!ch@============') {
       when { expression { return true } }
       steps {
-        echo "Current workspace is hrim!!!"
+        echo "Current workspace is 222hrim!!!"
       }
     }
     stage('============ DEPLOY ===========') {
