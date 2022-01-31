@@ -47,9 +47,10 @@ pipeline {
 
       steps {
         echo "Current workspace is hrim!! "
-        sh """#!/bin/bash
-            docker-compose -f docker-compose.yml down;
-           """
+        sh ('docker run --rm test:1 .')
+//         sh """#!/bin/bash
+//             docker-compose -f docker-compose.yml down;
+//            """
 //         dir("${env.WORKSPACE}") {
 //              sh 'docker build -t test:1 .'
 // //             script {
