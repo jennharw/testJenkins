@@ -43,7 +43,7 @@ pipeline {
       }
     }
 
-    stage('============ Build Docker Image! ============') {
+    stage('============ Run Test Code ============') {
 
       steps {
         echo "Current workspace is hrim!!!"
@@ -66,6 +66,20 @@ pipeline {
         }
       }
     }
+
+    stage('============ PUSH DOCKER IMAGE!@============') {
+      when { expression { return true } }
+      steps {
+        echo "Current workspace is hrim!!!"
+      }
+    }
+    stage('============ DEPLOY ===========') {
+      when { expression { return true } }
+      steps {
+        echo "DEPLOY"
+      }
+    }
+
 
 //     stage('============ Run test code ============') {
 //         echo "${DOCKER_TAG}Current workspace is hrim!! ${DOCKER_IMAGE}"
