@@ -93,6 +93,20 @@ pipeline {
             '''
       }
     }
+//     stage('Prompt for deploy') {
+//         when { expression { return params.PROMPT_FOR_DEPLOY } }
+//         agent { label 'deploy' }
+//         steps {
+//             script {
+//                 env.APPROAL_NUM = input message: 'Please enter the approval number',
+//                                   parameters: [string(defaultValue: '',
+//                                                description: '',
+//                                                name: 'APPROVAL_NUM')]
+//             }
+//
+//             echo "${env.APPROAL_NUM}"
+//         }
+//     }
     stage('============ DEPLOY ===========') {
       when { expression { return true } }
       steps {
@@ -156,4 +170,13 @@ pipeline {
 //         sh "./deploy/build.sh clean_unused_docker ${params.ENV}"
 //       }
 //     }
+    post {
+    failure {
+      slackSend(
+        channel: "#random",
+        color: "danger",
+        message: "[Failed] Job:${env.JOB_NAME}, Build num:#${env.BUILD_NUMBER} @channel (<${env.RUN_DISPLAY_URL}|open job detail>)"
+      )
+    }
+  }
 }
