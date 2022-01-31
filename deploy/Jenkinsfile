@@ -44,14 +44,9 @@ pipeline {
     }
 
     stage('============ Build Docker Image! ============') {
-      when {
-        expression {
-          return params.BUILD_DOCKER == 'Y'
-        }
-      }
 
       steps {
-        echo "${DOCKER_TAG}Current workspace is hrim!! ${DOCKER_IMAGE}"
+        echo "Current workspace is hrim!! "
 //         dir("${env.WORKSPACE}") {
 //              sh 'docker build -t test:1 .'
 // //             script {
